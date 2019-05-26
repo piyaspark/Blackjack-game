@@ -1,4 +1,4 @@
-package Blackjack.State;
+package Blackjack;
 
 import Blackjack.Game;
 

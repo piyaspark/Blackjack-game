@@ -1,6 +1,4 @@
-package Blackjack.Strategy;
-
-import Blackjack.Player;
+package Blackjack;
 
 public class ExpertBotStrategy implements BotStrategy{
     private Player player = Player.getInstance();

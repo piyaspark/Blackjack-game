@@ -3,7 +3,7 @@ package Blackjack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Blackjacker{
     private static Player instance = null;
     private List<Card> hands;
     private int total = 0;
@@ -19,17 +19,17 @@ public class Player {
         return instance;
     }
 
+    @Override
     public void draw(Card card){
         hands.add(card);
         if (card.getRanks() == Rank.ACE){
             total += card.getValue() + 10;
             numberOfAce++;
-        }
+        }else total += card.getValue();
         if (total > 21 && numberOfAce > 0){
             total -= 10;
             numberOfAce--;
         }
-        total += card.getValue();
     }
 
     public void clearHands(){
@@ -37,6 +37,7 @@ public class Player {
         total = 0;
     }
 
+    @Override
     public boolean isBusted(){
         return total > 21;
     }
@@ -47,11 +48,5 @@ public class Player {
 
     public int getTotal() {
         return total;
-    }
-
-    public Card getCard(Suit s,Rank r){
-        Card card = new Card(s,r);
-        if (hands.contains(card))return card;
-        return null;
     }
 }

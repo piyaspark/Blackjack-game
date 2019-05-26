@@ -1,4 +1,4 @@
-package Blackjack.Strategy;
+package Blackjack;
 
 public interface BotStrategy {
     public boolean canDraw(int total);

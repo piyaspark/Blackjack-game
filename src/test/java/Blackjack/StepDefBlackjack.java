@@ -13,12 +13,14 @@ public class StepDefBlackjack {
     Money m;
     Deck deck;
     Player player;
+    Dealer dealer;
 
     @Before
     public void init() {
         m = new Money(0);
         bet = 0;
         player = new Player();
+        dealer = new Dealer(new ExpertBotStrategy());
     }
 
     @Given("a player with money (\\d+) in balance")
@@ -38,11 +40,16 @@ public class StepDefBlackjack {
         this.bet = bet;
     }
 
-    @When("i want to draw a card with suit ([^\\\"]*) and rank ([^\\\"]*) from the decks")
-    public void draw_card_from_the_deck(Suit s, Rank r) {
-        Card card = deck.getCard(s, r);
-        player.draw(card);
+    @When("(.*) draw a card with suit (.*) and rank (.*) from the decks")
+    public void draw_card_from_the_deck(String person,String s, String r){
+        Card card = deck.getCard(Suit.valueOf(s), Rank.valueOf(r));
+        switch (person){
+            case "player" : player.draw(card);break;
+            case "dealer" : dealer.draw(card);break;
+        }
+        deck.remove(card);
     }
+
 
     @Then("The system show i have (\\d+) in my balance")
     public void the_system_show_i_have_money_in_my_balance(int balance) {
@@ -54,43 +61,48 @@ public class StepDefBlackjack {
         assertEquals(bet, this.bet);
     }
 
-    @Then("i will have my (.*) card is (.*) in my hand")
-    public void i_will_have_card_in_my_hand(String pos, String card) {
-        int index = 0;
-        switch (pos) {
-            case "first":
-                index = 0;
+    @Then("i will have card with suit (.*) and rank (.*) in my hand")
+    public void i_will_have_card_in_my_hand(String s, String r) {
+        boolean haveCard = false;
+        Card card = new Card(Suit.valueOf(s),Rank.valueOf(r));
+        for (Card c : player.getHands()) {
+            if(card.getRanks() == c.getRanks() && card.getSuits() == c.getSuits())haveCard = true;
+        }
+        assertTrue(haveCard);
+    }
+
+    @Then("(.*) will have total points equals (\\d+)")
+    public void i_will_have_total_points(String person, int total){
+        switch (person){
+            case "player" : assertEquals(total,player.getTotal());break;
+            case "dealer" : assertEquals(total,dealer.getTotal());break;
+        }
+    }
+
+    @Then("the amount of card in the deck is (\\d+)")
+    public void the_amount_of_card_in_the_deck(int size){
+        assertEquals(size,deck.getDecks().size());
+    }
+
+    @Then("player have more points than dealer")
+    public void more_point_than(){
+        assertTrue(player.getTotal() > dealer.getTotal());
+    }
+
+    @Then("player is busted")
+    public void player_is_busted(){
+        assertTrue(player.isBusted());
+    }
+
+    @Then("(.*) is the winner")
+    public void is_the_winner(String person){
+        switch (person){
+            case "player" :
+                assertTrue(!player.isBusted() && (player.getTotal() > dealer.getTotal() || dealer.isBusted()));
                 break;
-            case "second":
-                index = 1;
-                break;
-            case "third":
-                index = 2;
-                break;
-            case "fourth":
-                index = 3;
-                break;
-            case "fifth":
-                index = 4;
-                break;
-            case "sixth":
-                index = 5;
-                break;
-            case "seventh":
-                index = 6;
-                break;
-            case "eighth":
-                index = 7;
-                break;
-            case "ninth":
-                index = 8;
-                break;
-            case "tenth":
-                index = 9;
+            case "dealer" :
+                assertTrue(!dealer.isBusted() && (player.getTotal() < dealer.getTotal() || player.isBusted()));
                 break;
         }
-        Card pcard = player.getHands().get(index);
-        assertEquals(card, pcard.toString());
-
     }
 }

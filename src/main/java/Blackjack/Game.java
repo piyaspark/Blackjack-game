@@ -1,8 +1,5 @@
 package Blackjack;
 
-import Blackjack.State.IdleState;
-import Blackjack.State.State;
-
 import java.util.Random;
 import java.util.Scanner;
 

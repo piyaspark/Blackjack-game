@@ -1,4 +1,4 @@
-package Blackjack.Strategy;
+package Blackjack;
 
 
 public class NewbieBotStrategy implements BotStrategy{

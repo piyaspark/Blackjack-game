@@ -1,6 +1,4 @@
-package Blackjack.State;
-
-import Blackjack.Game;
+package Blackjack;
 
 public class IdleState extends State {
     public IdleState(Game game) {

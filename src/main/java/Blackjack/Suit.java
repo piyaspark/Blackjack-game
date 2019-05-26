@@ -3,7 +3,7 @@ package Blackjack;
 public enum Suit {
     SPADES("♠"),
     HEARTS("❤"),
-    DIAMONDs("♦"),
+    DIAMONDS("♦"),
     CLUBS("♣");
 
     private String arg;
