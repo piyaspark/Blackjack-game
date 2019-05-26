@@ -22,20 +22,20 @@
 ## Development
 ### Design Pattern
 
-* ####Singleton Design Pattern
+ ####Singleton Design Pattern
 
      ![](image/singleton_pattern.png)
 
  - I use singleton in player and dealer class because i want to save value for using in other class so i didn't invoke a new one.
  
 ---
-* ####Strategy Design Pattern
+ ####Strategy Design Pattern
      ![](image/strategy_pattern.png)
      
  - I use strategy pattern for bot(dealer) with different logic so user can change level of bot if they want.
  
 ---
-* ####State Design Pattern
+ ####State Design Pattern
      ![](image/state_pattern.png)
      
  - I use state for controlling state of game. I decide to seperate it to several state such as IdleState, CheckState and EndState following state in the game.
