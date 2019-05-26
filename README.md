@@ -39,3 +39,5 @@
      ![](image/state_pattern.png)
      
  - I use state for controlling state of game. I decide to seperate it to several state such as IdleState, CheckState and EndState following state in the game.
+ 
+---
